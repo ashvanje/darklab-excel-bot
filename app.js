@@ -10,10 +10,14 @@ const app = express();
 require('dotenv').config(); // Load the environment variables from .env file
 
 const server = app.listen(process.env.PORT || 3000, () => {
-    console.log('Server started on port 3000');
+    console.log(`Server started on port ${process.env.PORT || 3000} `);
   });
   
+  console.log(`server = ${JSON.stringify(server)} `);
+
   const wss = new WebSocket.Server({ server });
+  console.log(`wss = ${JSON.stringify(wss)} `);
+
 
   wss.on('connection', (ws) => {
     console.log('WebSocket connection established');
@@ -25,6 +29,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
   
 app.get('/websocket-url', (req, res) => {
     const websocketUrl = `ws://${req.headers.host}`;
+    console.log(`websocketUrl = ${websocketUrl} `);
     res.json({ websocketUrl });
   });
   
