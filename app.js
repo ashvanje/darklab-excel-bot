@@ -236,7 +236,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
     worksheet.columns = columnsDef;
     //todo - calculate column average length, then set the width
 
-    await workbook.xlsx.writeFile('Result.xlsx')
+    await workbook.xlsx.writeFile(`${process.env.XLSX_OUTPUT_PATH || result.xlsx}`)
         .then(() => {
             console.log('Excel file created successfully.')
             // wss.client.send(JSON.stringify({ progress: 100 }));
@@ -495,7 +495,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
 // });
 
 app.get('/api/download', (req, res) => {
-  res.download('result.xlsx');
+  res.download(`${process.env.XLSX_OUTPUT_PATH || result.xlsx}`);
 });
 
 
