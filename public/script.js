@@ -64,3 +64,19 @@ fetch('/websocket-url')
   .catch((error) => {
     console.error('Error retrieving WebSocket URL:', error);
   });
+
+
+  function getStatus() {
+    fetch('/status')
+    .then(response => response.json())
+    .then(data => {
+      console.log(`data.status = ${data.status}`)
+      document.getElementById('status').innerHTML = data.status; // assuming 'status' is a property in the returned JSON
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  
+  // Call getStatus() every 5 seconds
+  setInterval(getStatus, 5000);

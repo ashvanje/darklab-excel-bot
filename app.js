@@ -243,7 +243,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
     worksheet.columns = columnsDef;
     //todo - calculate column average length, then set the width
 
-    await workbook.xlsx.writeFile(`${process.env.XLSX_OUTPUT_PATH || result.xlsx}`)
+    await workbook.xlsx.writeFile(`${process.env.XLSX_OUTPUT_PATH || "result.xlsx"}`)
         .then(() => {
             console.log('Excel file created successfully.')
             // wss.client.send(JSON.stringify({ progress: 100 }));
@@ -502,17 +502,14 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
 // });
 
 app.get('/api/download', (req, res) => {
-  res.download(`${process.env.XLSX_OUTPUT_PATH || result.xlsx}`);
+  res.download(`${process.env.XLSX_OUTPUT_PATH || "result.xlsx"}`);
 });
 
 
-// Route to get the variable from the cache
 app.get('/status', (req, res) => {
-    // Read the variable from the cache
     const value = cache.get('myVariable');
-  
-    res.send(`Variable value: ${value}`);
-  });
 
+    res.send({ status: value });
+});
   
 app.use(express.static('public'));
