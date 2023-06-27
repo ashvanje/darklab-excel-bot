@@ -5,9 +5,13 @@ const axios = require('axios');
 const fs = require('fs');
 const ExcelJS = require('exceljs');
 const WebSocket = require('ws');
+const NodeCache = require('node-cache');
 
 const app = express();
 require('dotenv').config(); // Load the environment variables from .env file
+
+// Create a new cache instance
+const cache = new NodeCache();
 
 const server = app.listen(process.env.PORT || 3000, () => {
     console.log(`Server started on port ${process.env.PORT || 3000} `);
@@ -93,6 +97,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
     res.sendStatus(200);
 
     for (let i = 1; i < data.length; i++) {
+        cache.set('myVariable', `processing row ${i}/${data.length}`);
 
         let row = data[i];
         // let control = row[0];
@@ -126,6 +131,8 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
+
+        
         
         let aiResponse = response.data; // Assuming this is the response format
         console.log(`aiResponse: ${JSON.stringify(aiResponse)}`)
@@ -499,4 +506,13 @@ app.get('/api/download', (req, res) => {
 });
 
 
+// Route to get the variable from the cache
+app.get('/status', (req, res) => {
+    // Read the variable from the cache
+    const value = cache.get('myVariable');
+  
+    res.send(`Variable value: ${value}`);
+  });
+
+  
 app.use(express.static('public'));
