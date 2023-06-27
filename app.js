@@ -175,6 +175,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
         
         console.log(`aiResponse end`)
     }
+    cache.set('myVariable', `OK`);
 
     console.log(`matrix: ${JSON.stringify(matrix)}`)
 

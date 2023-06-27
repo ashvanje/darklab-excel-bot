@@ -72,6 +72,9 @@ fetch('/websocket-url')
     .then(data => {
       console.log(`data.status = ${data.status}`)
       document.getElementById('status').innerHTML = data.status; // assuming 'status' is a property in the returned JSON
+      if(data.status=="OK"){
+        $('#loadingIcon').hide();
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
