@@ -58,7 +58,7 @@ app.post('/api/process', upload.single('file'), async (req, res) => {
 
     let regex = /{{(.*?)}}/g;
     let matches = str.match(regex);
-    let resultJson;
+    let resultJson
     if (matches) {
         matches = matches.map(function (match) {
             // Remove the curly braces from each match
